@@ -1,0 +1,10 @@
+{
+	"folders":
+	[
+		{ "path": "config" },
+		{ "path": "data" },
+		{ "path": "scripts" },
+		{ "name": "scripts/lib", "path": "scripts/lib" },
+		{ "path": "." }
+	]
+}
