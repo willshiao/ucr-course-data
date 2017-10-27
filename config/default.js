@@ -29,7 +29,7 @@ module.exports = {
     credentials: { // Required if auth.type == credentials
       username: '',
       password: ''
-    }
+    },
     cookieDomain: 'https://registrationssb.ucr.edu'
   },
 
