@@ -13,6 +13,8 @@ const fileHelper = require('./lib/fileHelper')
 const Course = require('./models/Course')
 const Faculty = require('./models/Faculty')
 
+const idCache = {} // Global cache
+
 async function mockFetch () {
   const filename = fileHelper.getCatalogPath()
   const data = await fs.readFileAsync(filename)
@@ -33,15 +35,18 @@ async function fetchData () {
   const chunks = _.chunk(catalog, 200)
 
   console.time('insertion')
+
   await Promise.each(chunks, async chunk => {
     await Promise.map(chunk, async item => {
       item.faculty = await Promise.map(item.faculty, async faculty => {
+        if (idCache[faculty.bannerId]) return idCache[faculty.bannerId]
         const doc = await Faculty.findOrCreate({ bannerId: faculty.bannerId }, _.omit(faculty, 'bannerId'), faculty)
+        idCache[faculty.bannerId] = doc.doc._id
         return doc.doc._id || null
       })
       return item
     })
-    await Course.create(chunk)
+    await Course.insertMany(chunk)
   })
   console.timeEnd('insertion')
   logger.debug('Inserted data')
