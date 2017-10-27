@@ -11,8 +11,8 @@ module.exports = {
   },
 
   auth: {
-    type: 'cookie', // cookie or credentials, credentials not yet implemented
-    cookies: [
+    type: 'cookie', // cookie or credentials
+    cookies: [  // Required if auth.type == cookie
       {
         key: 'JSESSIONID',
         value: '',
@@ -26,6 +26,10 @@ module.exports = {
         domain: 'registrationssb.ucr.edu'
       }
     ],
+    credentials: { // Required if auth.type == credentials
+      username: '',
+      password: ''
+    }
     cookieDomain: 'https://registrationssb.ucr.edu'
   },
 
