@@ -4,6 +4,7 @@ const cheerio = require('cheerio')
 const config = require('config')
 const tough = require('tough-cookie')
 const rp = require('./request')
+const logger = require('./logger')
 
 module.exports = {
   async getJar () {
@@ -31,13 +32,11 @@ module.exports = {
     })
     const $ = cheerio.load(loginHtml)
 
-    console.log('Jar (pre-login): ', jar)
-
     const formData = {
       lt: $('input[name="lt"]').val(),
       execution: $('input[name="execution"]').val()
     }
-    console.log(formData)
+    logger.debug(formData)
 
     try {
       await rp({
@@ -61,6 +60,7 @@ module.exports = {
 
       return jar
     } catch (e) {
+      if (e.name === 'StatusCodeError') return jar
       console.error(e.stack)
       return jar
     }

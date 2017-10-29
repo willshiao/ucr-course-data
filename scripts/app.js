@@ -23,13 +23,14 @@ async function mockFetch () {
 
 async function fetchData () {
   const catalog = await getCatalog()
-  console.log(catalog)
+  return catalog
+  // console.log(catalog)
 }
 
 (async function () {
   await mongoose.connect(config.get('db.uri'), config.get('db.options'))
   logger.debug('Connected to database.')
-  const catalog = await mockFetch()
+  const catalog = await fetchData()
   logger.debug('Fetched data')
 
   const chunks = _.chunk(catalog, 200)
