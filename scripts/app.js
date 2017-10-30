@@ -5,6 +5,7 @@ const config = require('config')
 const _ = require('lodash')
 const Promise = require('bluebird')
 const fs = Promise.promisifyAll(require('fs'))
+const schedule = require('node-schedule')
 mongoose.Promise = Promise
 
 const getCatalog = require('./catalog.js')
@@ -35,9 +36,9 @@ async function fetchData (refresh = false) {
   // console.log(catalog)
 }
 
-(async function () {
-  await mongoose.connect(config.get('db.uri'), config.get('db.options'))
-  logger.debug('Connected to database.')
+async function fetchAndInsert () {
+  logger.debug('Running fetch and insert')
+
   const catalog = await fetchData()
   logger.debug('Fetched data')
 
@@ -59,4 +60,14 @@ async function fetchData (refresh = false) {
   })
   console.timeEnd('insertion')
   logger.debug('Inserted data')
+}
+
+(async function () {
+  await mongoose.connect(config.get('db.uri'), config.get('db.options'))
+  logger.debug('Connected to database.')
+
+  logger.debug('Scheduled fetch job')
+  schedule.scheduleJob(config.get('catalog.cron'), fetchAndInsert)
+
+  await fetchAndInsert()
 })()

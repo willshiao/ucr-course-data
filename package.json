@@ -32,6 +32,7 @@
     "lodash": "^4.17.4",
     "mongoose": "^4.12.4",
     "mongoose-findorcreate": "^2.0.0",
+    "node-schedule": "^1.2.5",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
     "tough-cookie": "^2.3.2",

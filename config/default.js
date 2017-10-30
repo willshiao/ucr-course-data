@@ -40,7 +40,8 @@ module.exports = {
     },
     term: 201810,
     subjects: 'CS,MATH', // Comma-seperated. Can be blank.
-    replaceUnknown: false // Replace unknown classes with 'UNKNOWN', not yet implemented
+    replaceUnknown: false, // Replace unknown classes with 'UNKNOWN', not yet implemented
+    cron: '*/5 * * * *' // Fetch every 5 minutes
   },
 
   request: {
