@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const config = require('config')
 const {Schema} = mongoose
 const Faculty = require('./Faculty').schema
+const MeetingsFaculty = require('./MeetingsFaculty').schema
 
 const courseSchema = new Schema({
   id: { type: Number, index: true },
@@ -33,6 +34,7 @@ const courseSchema = new Schema({
   isSectionLinked: Boolean,
   subjectCourse: { type: String, index: true },
   faculty: [{ type: Schema.Types.ObjectId, ref: Faculty }],
+  meetingsFaculty: [MeetingsFaculty],
 
   pollTime: {
     type: Date,

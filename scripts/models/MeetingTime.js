@@ -16,7 +16,7 @@ const timeSchema = new Schema({
   endDate: String,
   endTime: String,
   friday: Boolean,
-  hoursWeek: 2.5,
+  hoursWeek: Number,
   meetingScheduleType: String,
   monday: Boolean,
   room: Schema.Types.Mixed,
