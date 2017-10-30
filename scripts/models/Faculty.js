@@ -5,14 +5,14 @@ const {Schema} = mongoose
 const findOrCreate = require('mongoose-findorcreate')
 
 const facultySchema = new Schema({
-  bannerId: String,
+  bannerId: { type: String, index: true },
   category: Schema.Types.Mixed,
   class: String,
-  courseReferenceNumber: String,
+  courseReferenceNumber: { type: String, index: true },
   displayName: String,
   emailAddress: String,
   primaryIndicator: Boolean,
-  term: String
+  term: { type: String, index: true }
 })
 
 facultySchema.plugin(findOrCreate)

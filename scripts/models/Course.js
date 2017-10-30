@@ -6,16 +6,16 @@ const {Schema} = mongoose
 const Faculty = require('./Faculty').schema
 
 const courseSchema = new Schema({
-  id: Number,
+  id: { type: Number, index: true },
   term: {
     type: String,
     default: config.get('catalog.term').toString()
   },
   termDesc: String,
-  courseReferenceNumber: String,
+  courseReferenceNumber: { type: String, index: true },
   partOfTerm: String,
   courseNumber: String,
-  subject: String,
+  subject: { type: String, index: true },
   subjectDescription: String,
   sequenceNumber: String,
   campusDescription: String,
@@ -31,7 +31,7 @@ const courseSchema = new Schema({
   openSection: Boolean,
   linkIdentifier: String,
   isSectionLinked: Boolean,
-  subjectCourse: String,
+  subjectCourse: { type: String, index: true },
   faculty: [{ type: Schema.Types.ObjectId, ref: Faculty }],
 
   pollTime: {
