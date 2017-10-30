@@ -6,18 +6,23 @@ const tough = require('tough-cookie')
 const rp = require('./request')
 const logger = require('./logger')
 
+let storedJar = null
+
 module.exports = {
-  async getJar () {
+  async getJar (refresh = false) {
     if (config.get('auth.type') === 'cookie') {
       const jar = rp.jar()
       config.get('auth.cookies').forEach((c) => {
         jar.setCookie(new tough.Cookie(c), config.get('auth.cookieDomain'))
       })
-    } else if (config.get('auth.type') === 'credentials') {
+      return jar
+    } else if (config.get('auth.type') === 'credentials' && (refresh || !storedJar)) {
       let jar = await this.login(config.get('auth.credentials'))
       jar = await this.fetchCookies(jar)
-      // console.log(jar)
+      storedJar = jar
       return jar
+    } else if (!refresh) {
+      return storedJar
     }
     throw new TypeError('Invalid authentication type')
   },

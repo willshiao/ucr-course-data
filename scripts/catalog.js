@@ -28,6 +28,7 @@ async function getCatalog (j) {
   let res = await rp(options)
   const numCourses = res.totalCount
   console.log('Courses:', numCourses)
+  assert.ok(res.success)
   assert.notEqual(numCourses, 0)
 
   // Next, fetch all courses

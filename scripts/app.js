@@ -8,8 +8,10 @@ const fs = Promise.promisifyAll(require('fs'))
 mongoose.Promise = Promise
 
 const getCatalog = require('./catalog.js')
+const authHandler = require('./lib/authHandler.js')
 const logger = require('./lib/logger')
 const fileHelper = require('./lib/fileHelper')
+
 const Course = require('./models/Course')
 const Faculty = require('./models/Faculty')
 
@@ -21,9 +23,15 @@ async function mockFetch () {
   return JSON.parse(data)
 }
 
-async function fetchData () {
-  const catalog = await getCatalog()
-  return catalog
+async function fetchData (refresh = false) {
+  const jar = await authHandler.getJar(refresh)
+  try {
+    const catalog = await getCatalog(jar)
+    return catalog
+  } catch (e) {
+    if (e.name === 'AssertionError') return fetchData(true)
+    logger.error(e)
+  }
   // console.log(catalog)
 }
 
