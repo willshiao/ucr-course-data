@@ -35,6 +35,7 @@ const courseSchema = new Schema({
   subjectCourse: { type: String, index: true },
   faculty: [{ type: Schema.Types.ObjectId, ref: Faculty }],
   meetingsFaculty: [MeetingsFaculty],
+  span: { type: Number, default: 5 },
 
   pollTime: {
     type: Date,

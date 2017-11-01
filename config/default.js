@@ -41,7 +41,8 @@ module.exports = {
     term: 201810,
     subjects: 'CS,MATH', // Comma-seperated. Can be blank.
     replaceUnknown: false, // Replace unknown classes with 'UNKNOWN', not yet implemented
-    cron: '*/5 * * * *' // Fetch every 5 minutes
+    cron: '*/5 * * * *', // Fetch every 5 minutes
+    fields: ['id', 'term', 'courseReferenceNumber', 'subjectCourse', 'creditHours', 'maximumEnrollment', 'enrollment', 'seatsAvailable', 'waitCapacity', 'waitCount', 'waitAvailable']
   },
 
   request: {

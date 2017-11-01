@@ -39,7 +39,7 @@ async function fetchData (refresh = false) {
 async function fetchAndInsert () {
   logger.debug('Running fetch and insert')
 
-  const catalog = await fetchData()
+  const catalog = await mockFetch()
   logger.debug('Fetched data')
 
   const chunks = _.chunk(catalog, 200)
@@ -47,16 +47,31 @@ async function fetchAndInsert () {
   console.time('insertion')
 
   await Promise.each(chunks, async chunk => {
+    const toInsert = []
+    const queue = []
+
     await Promise.map(chunk, async item => {
       item.faculty = await Promise.map(item.faculty, async faculty => {
-        if (idCache[faculty.bannerId]) return idCache[faculty.bannerId]
-        const doc = await Faculty.findOrCreate({ bannerId: faculty.bannerId }, _.omit(faculty, 'bannerId'), faculty)
+        if (idCache[faculty.bannerId]) return idCache[faculty.bannerId] // Check cache for faculty ID
+        const doc = await Faculty.findOrCreate({ bannerId: faculty.bannerId }, _.omit(faculty, 'bannerId'))
         idCache[faculty.bannerId] = doc.doc._id
         return doc.doc._id || null
       })
       return item
     })
-    await Course.insertMany(chunk)
+
+    chunk.forEach(item => {
+      queue.push((async () => {
+        const status = await Course.update(_.pick(item, config.get('catalog.fields')), { $inc: {span: 5} })
+          .sort({ pollTime: -1 })
+          .limit(1)
+          .exec()
+
+        if (status.nModified === 0) toInsert.push(item)
+      })())
+    })
+    await Promise.all(queue)
+    await Course.insertMany(toInsert)
   })
   console.timeEnd('insertion')
   logger.debug('Inserted data')
