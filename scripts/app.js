@@ -39,7 +39,7 @@ async function fetchData (refresh = false) {
 async function fetchAndInsert () {
   logger.debug('Running fetch and insert')
 
-  const catalog = await mockFetch()
+  const catalog = config.get('debug') ? await mockFetch() : await fetchData()
   logger.debug('Fetched data')
 
   const chunks = _.chunk(catalog, 200)

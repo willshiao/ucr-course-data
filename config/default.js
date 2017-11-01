@@ -2,6 +2,7 @@
 
 module.exports = {
   dataDir: './data',
+  debug: false,
 
   db: {
     uri: 'mongodb://localhost/ucr-course',
