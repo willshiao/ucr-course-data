@@ -5,6 +5,7 @@ const Promise = require('bluebird')
 const fs = Promise.promisifyAll(require('fs'))
 const assert = require('assert')
 
+const logger = require('./lib/logger')
 const fileHelper = require('./lib/fileHelper')
 const authHandler = require('./lib/authHandler')
 const rp = require('./lib/request')
@@ -27,7 +28,7 @@ async function getCatalog (j) {
   // First, get the total number of courses
   let res = await rp(options)
   const numCourses = res.totalCount
-  console.log('Courses:', numCourses)
+  logger.info('Courses:', numCourses)
   assert.ok(res.success)
   assert.notEqual(numCourses, 0)
 
@@ -41,12 +42,12 @@ async function getCatalog (j) {
       const settings = options
       settings.qs.pageOffset = pageOffset
       res = await rp(settings)
-      console.log('Fetched', res.data.length, 'courses')
+      logger.debug('Fetched', res.data.length, 'courses')
       fetchedCourses = fetchedCourses.concat(res.data)
     })())
   }
   await Promise.all(requestQueue)
-  console.log('Fetched a total of', fetchedCourses.length, 'courses')
+  logger.info('Fetched a total of', fetchedCourses.length, 'courses')
 
   return fetchedCourses
 }
