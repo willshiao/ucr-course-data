@@ -84,5 +84,5 @@ async function fetchAndInsert () {
   logger.debug('Scheduled fetch job')
   schedule.scheduleJob(config.get('catalog.cron'), fetchAndInsert)
 
-  await fetchAndInsert()
+  if (config.get('debug')) await fetchAndInsert()
 })()
