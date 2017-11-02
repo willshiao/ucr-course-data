@@ -10,7 +10,8 @@ const courseSchema = new Schema({
   id: { type: Number, index: true },
   term: {
     type: String,
-    default: config.get('catalog.term').toString()
+    default: config.get('catalog.term').toString(),
+    index: true
   },
   termDesc: String,
   courseReferenceNumber: { type: String, index: true },
