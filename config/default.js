@@ -39,7 +39,7 @@ module.exports = {
       search: 'https://registrationssb.ucr.edu/StudentRegistrationSsb/ssb/searchResults/searchResults',
       prereqs: 'https://registrationssb.ucr.edu/StudentRegistrationSsb/ssb/searchResults/getSectionPrerequisites'
     },
-    term: 201810,
+    term: 201820,
     subjects: 'CS,MATH', // Comma-seperated. Can be blank.
     replaceUnknown: false, // Replace unknown classes with 'UNKNOWN', not yet implemented
     cron: '*/5 * * * *', // Fetch every 5 minutes
