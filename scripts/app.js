@@ -57,6 +57,7 @@ async function fetchAndInsert () {
         idCache[faculty.bannerId] = doc.doc._id
         return doc.doc._id || null
       })
+      item.scheduleTypeDescription = item.scheduleTypeDescription.trim()
       return item
     })
 
