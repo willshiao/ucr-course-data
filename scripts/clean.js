@@ -27,7 +27,7 @@ async function main () {
   await Promise.map(allSeminars, async (seminar) => {
     const type = seminar.scheduleTypeDescription
     if (type[type.length - 1] === ' ') {
-      if (numChanges % 1000 === 0) logger.info(`Number of changes: ${numChanges}`)
+      if (numChanges % 1000 === 0) logger.debug(`Number of changes: ${numChanges}`)
       seminar.scheduleTypeDescription = type.trim()
       numChanges++
       await seminar.save()
@@ -35,6 +35,7 @@ async function main () {
       logger.debug('Item already changed')
     }
   }, { concurrency: 25 })
+  logger.info(`Number of changes: ${numChanges}`)
   logger.info(`Percent changed: ${numChanges / allSeminars.length * 100}%`)
 }
 
