@@ -30,8 +30,13 @@ async function fetchData (refresh = false) {
     const catalog = await getCatalog(jar)
     return catalog
   } catch (e) {
-    if (e.name === 'AssertionError') return fetchData(true)
     logger.error(e)
+    if (e.name === 'AssertionError') {
+      logger.error('Failed to get courses due to AssertionError.')
+      logger.info('Retrying course fetching...')
+      return fetchData(true)
+    }
+    throw e
   }
   // console.log(catalog)
 }
