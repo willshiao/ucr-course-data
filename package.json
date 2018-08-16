@@ -21,21 +21,21 @@
   },
   "homepage": "https://github.com/willshiao/ucr-course-graph#readme",
   "devDependencies": {
-    "eslint": "^4.7.0",
+    "eslint": "^4.6.0",
     "eslint-config-airbnb-base": "^12.0.0",
-    "eslint-plugin-import": "^2.7.0"
+    "eslint-plugin-import": "^2.14.0"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
     "cheerio": "^1.0.0-rc.2",
     "config": "^1.26.2",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.10",
     "mongoose": "^4.12.4",
     "mongoose-findorcreate": "^2.0.0",
     "node-schedule": "^1.2.5",
-    "request": "^2.81.0",
-    "request-promise": "^4.2.1",
-    "tough-cookie": "^2.3.2",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2",
+    "tough-cookie": "^2.4.3",
     "winston": "^2.4.0"
   }
 }
